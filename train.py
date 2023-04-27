@@ -379,6 +379,8 @@ if __name__ == '__main__':
     # Set cuda
     if args.gpu:
         torch.device(args.cuda)
+        print(torch.cuda.device_count())
+        print("Device used {}".format(torch.cuda.current_device()))
     else:
         torch.device("cpu")
 
