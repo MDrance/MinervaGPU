@@ -89,6 +89,7 @@ class Minerva(nn.Module):
             self.e_embeddings = nn.Embedding.from_pretrained(e_emb, freeze=False)
             if not args.train_entity_embeddings:
                 self.e_embeddings.requires_grad_(False)
+            print("Nodes embeddings loaded from {}, require_grad = {}".format(emb_dir_node, self.e_embeddings.weight.requires_grad))
         elif args.use_neighbourhood_embeddings:
             self.neighbourhood_embedding_layer = nn.Linear(args.embedding_size, 1)
             self.r_adjacency = torch.zeros(args.e_vocab_size, args.r_vocab_size)
@@ -104,6 +105,7 @@ class Minerva(nn.Module):
         self.r_embeddings = nn.Embedding.from_pretrained(r_emb, freeze=False)
         if not args.train_relation_embeddings:
             self.r_embeddings.requires_grad_(False)
+        print("Relations embeddings loaded from {}, require_grad = {}".format(emb_dir_rel, self.r_embeddings.weight.requires_grad))
 
         self.policy_size = 3*args.hidden_size if (args.use_entity_embeddings or args.use_neighbourhood_embeddings) \
             else 2*args.hidden_size
