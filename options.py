@@ -35,6 +35,7 @@ def read_options():
     parser.add_argument("--use_entity_embeddings", default=1, type=int)
     parser.add_argument("--use_neighbourhood_embeddings", default=0, type=int)
     parser.add_argument("--train_entity_embeddings", default=1, type=int)
+    parser.add_argument("--train_relation_embeddings", default=1, type=int)
     parser.add_argument("--sample_check", default=0, type=int)
     parser.add_argument("--beam_search", default=1, type=int)
     parser.add_argument("--random_seed", default=42, type=int)
@@ -59,6 +60,7 @@ def read_options():
     parser.add_argument("--load_model", default="", type=str)
     parser.add_argument("--output_dir", default="output", type=str)
     parser.add_argument("--run_on_new_args", default=0, type=int)
+    parser.add_argument("--trainkge", default=False, action="store_true")
 
 
     args = parser.parse_args()
