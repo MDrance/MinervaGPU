@@ -45,7 +45,7 @@ class Trainer(object):
         :param args:
         '''
         self.args = args
-        self.device = torch.device("cuda:3" if self.args.cuda else "cpu")
+        self.device = torch.device(args.cuda if self.args.gpu else "cpu")
         self.stats = {'timer': Timer(), 'epoch': 0, 'best_valid': 0}
 
         self.KB = KB(args)
@@ -66,7 +66,7 @@ class Trainer(object):
 
 
         # Use the GPU?
-        if args.cuda:
+        if args.gpu:
             self.model.cuda()
 
         train_sampler = torch.utils.data.sampler.RandomSampler(self.train_data)
@@ -300,7 +300,7 @@ class Trainer(object):
             e2 = [self.KB.e_vocab[e2], ] * self.args.beam_size
             e2 = torch.tensor(e2, dtype=torch.long)
 
-        if self.args.cuda:
+        if self.args.gpu:
             e1, r = e1.to(self.device), r.to(self.device)
             if e2:
                 e2 = e2.to(self.device)
@@ -331,7 +331,7 @@ def main(args):
             if i%args.eval_every == 0:
                 trainer.eval(trainer.dev_loader)
         trainer.model = trainer.model.load(args.output_dir+"/model")
-        if args.cuda:
+        if args.gpu:
             trainer.model.cuda()
         if args.per_relation_scores == 0:
             trainer.eval(trainer.test_loader, is_test=True)
@@ -377,8 +377,8 @@ if __name__ == '__main__':
 
 
     # Set cuda
-    if args.cuda:
-        torch.device("cuda:3")
+    if args.gpu:
+        torch.device(args.cuda)
     else:
         torch.device("cpu")
 

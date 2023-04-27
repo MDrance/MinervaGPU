@@ -11,8 +11,8 @@ def read_options():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", default="WN18RR", type=str)
     parser.add_argument("--max_num_actions", default=200, type=int)
-    parser.add_argument("--hidden_size", default=100, type=int)
-    parser.add_argument("--embedding_size", default=100, type=int) #Test with 100/200
+    parser.add_argument("--hidden_size", default=200, type=int)
+    parser.add_argument("--embedding_size", default=200, type=int) #Test with 100/200
     parser.add_argument("--l2_reg_const", default=1e-2, type=float)
     parser.add_argument("--learning_rate", default=1e-3, type=float)
     parser.add_argument("--weight_decay", default=1e-5, type=float) #No found in TF
@@ -40,8 +40,8 @@ def read_options():
     parser.add_argument("--random_seed", default=42, type=int)
     parser.add_argument("--log_file", default="log.txt", type=str)
     parser.add_argument("--model_type", default="minerva", type=str)
-    parser.add_argument("--gpu", default=1, type=int)
-    parser.add_argument("--cuda", default=1, type=int)
+    parser.add_argument("--gpu", default=0, type=int)
+    parser.add_argument("--cuda", default="cuda:0", type=str)
     parser.add_argument("--num_layers", default=1, type=int) #LSTM_layers in TF
     parser.add_argument("--train_batch_size", default=128, type=int)
     parser.add_argument("--eval_batch_size", default=256, type=int)
@@ -49,9 +49,9 @@ def read_options():
     parser.add_argument("--num_steps", default=3, type=int)
     parser.add_argument("--cell_type", default="lstm", type=str)
     parser.add_argument("--optimizer", default="adamax", type=str)
-    parser.add_argument("--eval_every", default=100, type=int)
+    parser.add_argument("--eval_every", default=1, type=int)
     parser.add_argument("--display_iter", default=1000, type=int)
-    parser.add_argument("--num_epochs", default=1000, type=int) #WN18 = 1000 FB15K = 2000
+    parser.add_argument("--num_epochs", default=30, type=int)
     parser.add_argument("--only_dev", default=0, type=int)
     parser.add_argument("--eval_on_train", default=0, type=int)
     parser.add_argument("--per_relation_scores", default=0, type=int)

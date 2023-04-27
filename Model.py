@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 class Rewarder(object):
     def __init__(self, args):
         self.args = args
-        self.device = torch.device("cuda:3" if self.args.cuda else "cpu")
+        self.device = torch.device(args.cuda if self.args.gpu else "cpu")
         self.average_reward = 0.0
 
     def get_reward(self, predicted_e2, e2, r):
@@ -55,7 +55,7 @@ class KBCompleter(object):
     def __init__(self, args, KB, state_dict=None):
         # Book-keeping.
         self.args = args
-        self.device = torch.device("cuda:3" if self.args.cuda else "cpu")
+        self.device = torch.device(args.cuda if self.args.gpu else "cpu")
         self.updates = 0
         self.use_cuda = False
         self.KB = KB

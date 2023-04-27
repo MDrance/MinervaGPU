@@ -40,7 +40,7 @@ class StackedRNNCell(nn.Module):
         super(StackedRNNCell, self).__init__()
         self.cells = nn.ModuleList()
         self.args = args
-        self.device = torch.device("cuda:3" if self.args.cuda else "cpu")
+        self.device = torch.device(args.cuda if self.args.gpu else "cpu")
         self.num_layers = num_layers
         self.cell_type = cell_type
         self.rnn = None
@@ -55,7 +55,7 @@ class StackedRNNCell(nn.Module):
             self.rnn = nn.LSTMCell
 
         for _ in range(num_layers):
-            if args.cuda:
+            if args.gpu:
                 self.cells.append(self.rnn(in_size, h_size).to(self.device))
             else:
                 self.cells.append(self.rnn(in_size, h_size))
@@ -107,7 +107,7 @@ class Minerva(nn.Module):
             else args.hidden_size
 
         self.args = args
-        self.device = torch.device("cuda:3" if self.args.cuda else "cpu")
+        self.device = torch.device(args.cuda if self.args.gpu else "cpu")
         self.KB = KB
 
         # Reasoning machinery
