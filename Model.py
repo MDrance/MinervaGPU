@@ -70,9 +70,6 @@ class KBCompleter(object):
         if state_dict:
             self.network.load_state_dict(state_dict)
 
-        for name, param in self.network.named_parameters():
-            if param.requires_grad:
-                logger.info(name, str(param.size()))
         logger.info(print(self.network))
 
     def init_optimizer(self, state_dict=None):

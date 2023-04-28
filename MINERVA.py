@@ -129,9 +129,9 @@ class Minerva(nn.Module):
         # Reasoning machinery
 
         self.reasoner = StackedRNNCell(args, args.cell_type, self.rnn_size, self.rnn_size, num_layers=args.num_layers)
-        self.policy_mlp = nn.Sequential(nn.Linear(self.policy_size, args.hidden_size), nn.ReLU(),
+        self.policy_mlp = nn.Sequential(nn.Linear(self.policy_size, args.hidden_size*2), nn.ReLU(),
                                         torch.nn.Dropout(args.state_dropout),
-                                        nn.Linear(args.hidden_size, self.rnn_size),
+                                        nn.Linear(args.hidden_size*2, self.rnn_size),
                                         torch.nn.Dropout(args.state_dropout))
 
     def apply_action_dropout_mask(self, action_mask):
