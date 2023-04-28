@@ -73,6 +73,7 @@ class KBCompleter(object):
         for name, param in self.network.named_parameters():
             if param.requires_grad:
                 logger.info(name, str(param.size()))
+        logger.info(print(self.network))
 
     def init_optimizer(self, state_dict=None):
         """Initialize an optimizer for the free parameters of the network.
