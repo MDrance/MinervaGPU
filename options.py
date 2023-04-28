@@ -18,7 +18,7 @@ def read_options():
     parser.add_argument("--weight_decay", default=1e-5, type=float) #No found in TF
     parser.add_argument("--action_dropout", default=0, type=float) #No found in TF, seems not to be here
     parser.add_argument("--state_dropout", default=0.0, type=float)
-    parser.add_argument("--beta", default=0.05, type=float) #WN = 0.05 FB = 0.02
+    parser.add_argument("--beta", default=0.05, type=float) #WN = 0.05 FB = 0.02 NELL = 0.06
     parser.add_argument("--positive_reward", default=1.0, type=float)
     parser.add_argument("--negative_reward", default=0, type=float)
     parser.add_argument("--log_dir", default="./logs/", type=str)
@@ -29,7 +29,7 @@ def read_options():
     parser.add_argument("--model_dir", default='', type=str)
     parser.add_argument("--base_output_dir", default='', type=str)
     parser.add_argument("--grad_clip_norm", default=5, type=int)
-    parser.add_argument("--Lambda", default=0.05, type=float) #WN = 0.05 FB15 = 0.05
+    parser.add_argument("--Lambda", default=0.05, type=float) #WN = 0.05 FB15 = 0.05 NELL = 0.0
     parser.add_argument("--gamma", default=1.0, type=float)
     parser.add_argument("--pool", default="max", type=str)
     parser.add_argument("--use_entity_embeddings", default=1, type=int)
