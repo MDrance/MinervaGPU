@@ -70,6 +70,9 @@ class KBCompleter(object):
         if state_dict:
             self.network.load_state_dict(state_dict)
 
+        for name, param in self.network.named_parameters():
+            if param.requires_grad:
+                print (name, param.size())
 
     def init_optimizer(self, state_dict=None):
         """Initialize an optimizer for the free parameters of the network.

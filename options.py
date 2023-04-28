@@ -42,7 +42,7 @@ def read_options():
     parser.add_argument("--model_type", default="minerva", type=str)
     parser.add_argument("--gpu", default=0, type=int)
     parser.add_argument("--cuda", default="cuda:0", type=str)
-    parser.add_argument("--num_layers", default=1, type=int) #LSTM_layers in TF
+    parser.add_argument("--num_layers", default=3, type=int) #LSTM_layers in TF
     parser.add_argument("--train_batch_size", default=128, type=int)
     parser.add_argument("--eval_batch_size", default=256, type=int)
     parser.add_argument("--data_workers", default=8, type=int)
