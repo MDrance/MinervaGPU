@@ -7,6 +7,7 @@ from torch.autograd import Variable
 from torch.distributions import Categorical
 
 from kb import KB
+import os
 
 
 def ones_var_cuda(s, requires_grad=False):
@@ -83,8 +84,15 @@ class Minerva(nn.Module):
     def __init__(self, args, KB):
         super(Minerva, self).__init__()
         if args.use_entity_embeddings:
-            self.e_embeddings = nn.Embedding(args.e_vocab_size, args.embedding_size, padding_idx=0)
-            torch.nn.init.xavier_uniform_(self.e_embeddings.weight)
+            if args.ptemb:
+                emb_dir_node = os.path.join("datasets/", args.dataset, "embeddings/node_embedding.pt")
+                e_emb = torch.load(emb_dir_node)
+                self.e_embeddings = nn.Embedding.from_pretrained(e_emb, freeze=False)
+                print("Nodes embeddings loaded from {}, require_grad = {}".format(emb_dir_node, self.e_embeddings.weight.requires_grad))
+            else:
+                self.e_embeddings = nn.Embedding(args.e_vocab_size, args.embedding_size, padding_idx=0)
+                torch.nn.init.xavier_uniform_(self.e_embeddings.weight)
+                print("Xavier init for nodes embeddings")
             if not args.train_entity_embeddings:
                 self.e_embeddings.requires_grad_(False)
         elif args.use_neighbourhood_embeddings:
@@ -97,9 +105,17 @@ class Minerva(nn.Module):
             for i_e in (torch.sum(self.r_adjacency, dim=-1) == 0).nonzero():
                 # NO_OP points to self
                 self.r_adjacency[i_e, 1] = 1
-        self.r_embeddings = nn.Embedding(args.r_vocab_size, args.embedding_size, padding_idx=0)
-        torch.nn.init.xavier_uniform_(self.r_embeddings.weight)
-        # self.r_embeddings.requires_grad_(False)
+        if args.ptemb:
+            emb_dir_rel = os.path.join("datasets/", args.dataset, "embeddings/rel_embedding.pt")
+            r_emb = torch.load(emb_dir_rel)
+            self.r_embeddings = nn.Embedding.from_pretrained(r_emb, freeze=False)
+            print("Relations embeddings loaded from {}, require_grad = {}".format(emb_dir_rel, self.r_embeddings.weight.requires_grad))
+            if not args.train_relation_embeddings:
+                self.r_embeddings.requires_grad_(False)
+        else:
+            self.r_embeddings = nn.Embedding(args.r_vocab_size, args.embedding_size, padding_idx=0)
+            torch.nn.init.xavier_uniform_(self.r_embeddings.weight)
+            print("Xavier init for relations embeddings")
 
         self.policy_size = 3*args.hidden_size if (args.use_entity_embeddings or args.use_neighbourhood_embeddings) \
             else 2*args.hidden_size

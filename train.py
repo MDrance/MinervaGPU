@@ -11,6 +11,7 @@ from collections import defaultdict
 from utils import Printer
 logger = logging.getLogger()
 from kb import KB, KB_dataset
+from KGE import ConvE_wn18rr_model, ConvE_fb15k_model, Conve_base_model
 
 
 
@@ -316,6 +317,25 @@ class Trainer(object):
 def main(args):
     # TRAIN/VALID LOOP
     trainer = Trainer(args)
+
+    if args.trainkge:
+        emb_dir = os.path.join("datasets/", args.dataset, "embeddings/")
+        if args.dataset == "WN18RR":
+            kge_model = ConvE_wn18rr_model(args, trainer.KB)
+        if args.dataset == "FB15K-237":
+            kge_model = ConvE_fb15k_model(args, trainer.KB)
+        if args.dataset == "nell-995":
+            kge_model = Conve_base_model(args, trainer.KB)
+        kge_model.model.to(args.cuda)
+        mrr, hit1, hit3, hit10 = kge_model.train()
+        print("MRR : {0}, Hit@1 : {1}, Hit@3 : {2}, Hit@10 : {3}".format(mrr, hit1, hit3, hit10))
+        e_emb = kge_model.model.entity_representations[0]()
+        r_emb = kge_model.model.relation_representations[0]()
+        torch.save(e_emb, emb_dir + "node_embedding.pt")
+        torch.save(r_emb, emb_dir + "rel_embedding.pt")
+        print("Nodes embeddings : {}, Rel embeddings : {}".format(e_emb.size(), r_emb.size()))
+        print("Embeddings saved at {}".format(emb_dir))
+        return
 
     # trainer.run_path_find_ad_hoc("/m/05r6t", "/music/genre/artists")
 

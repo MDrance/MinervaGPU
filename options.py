@@ -35,12 +35,13 @@ def read_options():
     parser.add_argument("--use_entity_embeddings", default=1, type=int)
     parser.add_argument("--use_neighbourhood_embeddings", default=0, type=int)
     parser.add_argument("--train_entity_embeddings", default=1, type=int)
+    parser.add_argument("--train_relation_embeddings", default=1, type=int)
     parser.add_argument("--sample_check", default=0, type=int)
     parser.add_argument("--beam_search", default=1, type=int)
     parser.add_argument("--random_seed", default=42, type=int)
     parser.add_argument("--log_file", default="log.txt", type=str)
     parser.add_argument("--model_type", default="minerva", type=str)
-    parser.add_argument("--gpu", default=0, type=int)
+    parser.add_argument("--gpu", default=1, type=int)
     parser.add_argument("--cuda", default="cuda:0", type=str)
     parser.add_argument("--num_layers", default=3, type=int) #LSTM_layers in TF
     parser.add_argument("--train_batch_size", default=128, type=int)
@@ -59,6 +60,8 @@ def read_options():
     parser.add_argument("--load_model", default="", type=str)
     parser.add_argument("--output_dir", default="output", type=str)
     parser.add_argument("--run_on_new_args", default=0, type=int)
+    parser.add_argument("--trainkge", default=False, action="store_true")
+    parser.add_argument("--PTemb", default=False, action="store_true")
 
 
     args = parser.parse_args()
