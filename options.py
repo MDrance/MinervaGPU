@@ -42,7 +42,7 @@ def read_options():
     parser.add_argument("--log_file", default="log.txt", type=str)
     parser.add_argument("--model_type", default="minerva", type=str)
     parser.add_argument("--gpu", default=1, type=int)
-    parser.add_argument("--cuda", default="cuda:0", type=str)
+    parser.add_argument("--cuda", default="cuda:0", type=str) #Select GPU
     parser.add_argument("--num_layers", default=3, type=int) #LSTM_layers in TF
     parser.add_argument("--train_batch_size", default=128, type=int)
     parser.add_argument("--eval_batch_size", default=256, type=int)
@@ -50,7 +50,7 @@ def read_options():
     parser.add_argument("--num_steps", default=3, type=int)
     parser.add_argument("--cell_type", default="lstm", type=str)
     parser.add_argument("--optimizer", default="adamax", type=str)
-    parser.add_argument("--eval_every", default=1, type=int)
+    parser.add_argument("--eval_every", default=1, type=int) #change for each dataset
     parser.add_argument("--display_iter", default=1000, type=int)
     parser.add_argument("--num_epochs", default=30, type=int)
     parser.add_argument("--only_dev", default=0, type=int)
@@ -61,7 +61,7 @@ def read_options():
     parser.add_argument("--output_dir", default="output", type=str)
     parser.add_argument("--run_on_new_args", default=0, type=int)
     parser.add_argument("--trainkge", default=False, action="store_true")
-    parser.add_argument("--PTemb", default=False, action="store_true")
+    parser.add_argument("--ptemb", default=False, action="store_true")
 
 
     args = parser.parse_args()

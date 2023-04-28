@@ -184,6 +184,7 @@ class Trainer(object):
         if hits_at_10.avg >= self.best_metric and is_test == False:
             self.best_metric = hits_at_10.avg
             self.model.save(args.output_dir+"/model")
+            print("Best model saved.")
 
     def per_relation_eval(self, data_loader, is_test=False):
         assert is_test == True

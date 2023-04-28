@@ -326,7 +326,7 @@ class Minerva(nn.Module):
                         beam_scores = top_scores.contiguous().view(-1, 1) #[B*k, 1]
 
 
-                        x = top_idx // args.max_num_actions #[B, k]
+                        x = torch.div(top_idx, args.max_num_actions, rounding_mode="trunc") #[B, k]
                         next_actions = top_idx % args.max_num_actions #[B, k]
                         next_elements = x.view(-1) + torch.tensor(
                             np.repeat([b * args.beam_size for b in range(true_batch_size)],

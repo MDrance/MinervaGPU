@@ -4,3 +4,4 @@ datasets/*
 !datasets/WN18RR/
 !datasets/nell-995/
 !datasets/FB15K-237/
+!datasets/nell/
