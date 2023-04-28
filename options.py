@@ -16,7 +16,7 @@ def read_options():
     parser.add_argument("--l2_reg_const", default=1e-2, type=float)
     parser.add_argument("--learning_rate", default=1e-3, type=float)
     parser.add_argument("--weight_decay", default=1e-5, type=float) #No found in TF
-    parser.add_argument("--action_dropout", default=0, type=float) #No found in TF, seems not to be here
+    parser.add_argument("--action_dropout", default=0, type=float) #Not used
     parser.add_argument("--state_dropout", default=0.0, type=float)
     parser.add_argument("--beta", default=0.05, type=float) #WN = 0.05 FB = 0.02 NELL = 0.06
     parser.add_argument("--positive_reward", default=1.0, type=float)
