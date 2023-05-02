@@ -322,16 +322,17 @@ def main(args):
     if args.trainkge:
         emb_dir = os.path.join("datasets/", args.dataset, "embeddings/")
         if args.dataset == "WN18RR":
-            kge_model = ConvE_wn18rr_model(args, trainer.KB)
+            kge_model = ConvE_wn18rr_model(args, trainer.KB, trainer.train_data, trainer.test_data)
         if args.dataset == "FB15K-237":
-            kge_model = ConvE_fb15k_model(args, trainer.KB)
+            kge_model = ConvE_fb15k_model(args, trainer.KB, trainer.train_data, trainer.test_data)
         if args.dataset == "nell-995":
-            kge_model = Conve_base_model(args, trainer.KB)
+            kge_model = Conve_base_model(args, trainer.KB, trainer.train_data, trainer.test_data)
+
         kge_model.model.to(args.cuda)
         mrr, hit1, hit3, hit10 = kge_model.train()
         print("MRR : {0}, Hit@1 : {1}, Hit@3 : {2}, Hit@10 : {3}".format(mrr, hit1, hit3, hit10))
         e_emb = kge_model.model.entity_representations[0]()
-        r_emb = kge_model.model.relation_representations[0]()
+        r_emb = kge_model.create_rvocab()
         torch.save(e_emb, emb_dir + "node_embedding.pt")
         torch.save(r_emb, emb_dir + "rel_embedding.pt")
         print("Nodes embeddings : {}, Rel embeddings : {}".format(e_emb.size(), r_emb.size()))
