@@ -89,6 +89,19 @@ class ConvE_fb15k_model():
         hit10 = val_metrics["both.realistic.hits_at_10"]
         return mrr, hit1, hit3, hit10
     
+    def create_rvocab(self) -> dict:
+        all_keys = [k for k in self.kb.r_vocab.tok2ind.keys()][2:]
+        all_values = [k for k in self.kb.r_vocab.tok2ind.values()][2:]
+        half = len(all_keys)//2
+        frw_keys = all_keys[:half]
+        frw_values = all_values[:half]
+        return {k : v for k, v in zip(frw_keys, frw_values)}
+    
+    def organize_rvocab(self):
+        special_token_emb = torch.nn.Embedding(2, self.args.embedding_size)
+        rel_emb = self.model.relation_representations[0]().data
+        return torch.cat((special_token_emb.weight.data, rel_emb[0::2], rel_emb[1::2]), dim=0)
+    
 class Conve_base_model():
     def __init__(self, args, kb: KB, train_set: KB_dataset, test_set: KB_dataset):
         self.args = args
@@ -119,3 +132,17 @@ class Conve_base_model():
         hit3 = val_metrics["both.realistic.hits_at_3"]
         hit10 = val_metrics["both.realistic.hits_at_10"]
         return mrr, hit1, hit3, hit10
+    
+    def create_rvocab(self) -> dict:
+        all_keys = [k for k in self.kb.r_vocab.tok2ind.keys()][2:]
+        all_values = [k for k in self.kb.r_vocab.tok2ind.values()][2:]
+        half = len(all_keys)//2
+        frw_keys = all_keys[:half]
+        frw_values = all_values[:half]
+        return {k : v for k, v in zip(frw_keys, frw_values)}
+    
+    def organize_rvocab(self):
+        special_token_emb = torch.nn.Embedding(2, self.args.embedding_size)
+        rel_emb = self.model.relation_representations[0]().data
+        return torch.cat((special_token_emb.weight.data, rel_emb[0::2], rel_emb[1::2]), dim=0)
+    
